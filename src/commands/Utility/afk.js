@@ -1,4 +1,4 @@
-const Afk = require('../database/models/afkSchema');
+const Afk = require('../../../database/models/afkSchema');
 const mongoose = require('mongoose');
 module.exports = {
     name: 'afk',

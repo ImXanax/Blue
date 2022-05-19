@@ -1,8 +1,8 @@
 const embed = require("../../commands/embed");
 const Levels = require('discord-xp');
 const {MessageEmbed}= require('discord.js');
-const Blacklist = require('../../database/models/blackListSchema');
-const Afk = require('../../database/models/afkSchema');
+const Blacklist = require('../mongoEvents/models/blackListSchema');
+const Afk = require('../mongoEvents/models/afkSchema');
 module.exports =  async (Discord,client,message) => {
     
     //Advanced Poll AUTOMATIC reaction 

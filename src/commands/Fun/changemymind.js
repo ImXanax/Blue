@@ -1,6 +1,6 @@
 const canva = require("canvacord");
 const { changemymind } = require("canvacord/src/Canvacord");
-const { execute } = require("./embed");
+const { execute } = require("../embed");
 module.exports = {
     name: "changemymind",
     aliases: ['cmm'],
