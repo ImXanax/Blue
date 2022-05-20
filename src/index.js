@@ -31,8 +31,8 @@ const commandFolders = fs.readdirSync("./src/commands");
   for (file of functions) {
     require(`./functions/${file}`)(client);
   }
-  client.handleEvents(eventFiles, "./src/events");
-  client.handleCommands(commandFolders, `./src/commands`);
+  client.handleEvents(eventFiles, './src/events');
+  client.handleCommands(commandFolders, './src/commands');
   client.handleMongo();
   client.login(process.env.TOKEN);
 })();

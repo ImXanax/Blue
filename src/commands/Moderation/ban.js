@@ -1,23 +1,31 @@
-module.exports={
-    name: 'ban',
-    description: "bans user from the server",
-    execute(client,message,cmd,args,Discord){
-        if(message.member.permissions.has('ADMINISTRATOR')){
-            const member = message.mentions.users.first();
-            if (member){
-                const memberTarget=message.guild.members.cache.get(member.id);
-                memberTarget.ban();
-                message.channel.send(":hand_splayed:<:inchresting:773926958546812948> User got **BANNED**").then(message =>{
-                    message.delete({timeout:10000})
-                })
-                .catch(console.error());
-            }
-            else{
-                message.channel.send(":small_blue_diamond: You Didn't Specify Whomst")
-            }
-        }
-        else{
-            message.channel.send(`:small_blue_diamond::large_blue_diamond::person_fencing:You don't have the perms to ban members :person_fencing::large_blue_diamond::small_blue_diamond:`)
-        }
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const {
+  MessageActionRow,
+  MessageButton,
+  MessageEmbed,
+  Message,
+} = require("discord.js");
+const { execute } = require("../Fun/eightball");
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("ban")
+    .setDescription("bans a user")
+    .addUserOption((option) =>
+      option.setName("user").setDescription("the user you want banned")
+    ),
+  async execute(ctx, client) {
+    const permCheck = ctx.member.roles.cache.has("734431567912370196");
+    console.log(permCheck);
+    if (permCheck) {
+      const target = ctx.options.getUser("user");
+      try {
+        target.ban();
+        ctx.reply({ content: `${target} Banned` });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      ctx.reply({ content: `dont have perms` });
     }
-}
+  },
+};
