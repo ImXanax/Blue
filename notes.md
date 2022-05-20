@@ -3,6 +3,7 @@
 - changed index.js dir
 - added events , functions, mongoEvents, schema dir
 - added command , events , mongo Handlers
+- added role display cmd
 
 
 - clear message cmd
