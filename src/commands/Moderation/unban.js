@@ -6,27 +6,25 @@ const {
   Message,
   Guild,
 } = require("discord.js");
-const e = require("express");
-const { execute } = require("../Fun/eightball");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("ban")
-    .setDescription("bans a user")
-    .addUserOption((option) =>
-      option.setName("user").setDescription("the user you want banned")
+    .setName("unban")
+    .setDescription("unbans a user")
+    .addIntegerOption((option) =>
+      option.setName("id").setDescription("the user's id you want unbanned")
     ),
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
-    const target = ctx.options.getUser("user");
+    const target = ctx.options.getInteger("id");
     if (isAdmin) {
-      const banEmbed = new MessageEmbed()
+      const unbanEmbed = new MessageEmbed()
         .setDescription(
-          `<@${target.id}> **Banned!**\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\``
+          `<@${target.id}> **Unbanned!**\nBot: \`${target.bot}\`\nId: \`${target.id}\`\nUsername: \`${target.username}#${target.discriminator}\``
         )
         .setColor("#0014e9");
       await ctx.guild.members
-        .ban(target)
-        .then(ctx.reply({ embeds: [banEmbed] }))
+        .unban(target.id)
+        .then(ctx.reply({ embeds: [unbanEmbed] }))
         .catch((e) => console.log(e));
     } else {
       ctx.reply({ content: `You Don't Have Permissions` });
