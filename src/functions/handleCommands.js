@@ -1,14 +1,38 @@
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
-module.exports = (client, Discord) =>{
-    const command_files = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-    for(const file of command_files){
-        const command = require(`../commands/${file}`);
-        if(command.name){
-            client.commands.set(command.name, command)
+const clientId = '761212535541858314';
+const guildId = '553981600338149386';
+
+module.exports = (client) => {
+    client.handleCommands = async (commandFolders, path) => {
+        client.commandArray = [];
+        for (folder of commandFolders) {
+            const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file => file.endsWith('.js'));
+            for (const file of commandFiles) {
+                const command = require(`../commands/${folder}/${file}`);
+                //set a new item in the Collection
+                //with the key as the commands name and the value as the exported module
+                client.commands.set(command.data.name, command);
+                client.commandArray.push(command.data.toJSON());
+            }
         }
-        else{
-            continue;
-        }
-    } 
-}
+        const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+
+        (async () => {
+            try {
+                console.log('✅ Refreshing (/)...');
+
+                await rest.put(
+                    Routes.applicationGuildCommands(clientId, guildId),
+                    { body: client.commandArray },
+                );
+
+                console.log('✅ Reloaded (/) CMDs');
+            } catch (error) {
+                console.error(error);
+            }
+        })();
+    };
+};

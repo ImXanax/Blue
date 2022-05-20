@@ -1,7 +1,5 @@
-const embed = require("../../commands/embed");
 const Levels = require('discord-xp');
 const {MessageEmbed}= require('discord.js');
-const Blacklist = require('../mongoEvents/models/blackListSchema');
 const Afk = require('../mongoEvents/models/afkSchema');
 module.exports =  async (Discord,client,message) => {
     
