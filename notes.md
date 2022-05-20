@@ -3,3 +3,32 @@
 - changed index.js dir
 - added events , functions, mongoEvents, schema dir
 - added command , events , mongo Handlers
+
+
+- clear message cmd
+- dm cmd
+- edit for dicord-xp cmd
+- kick cmd
+- mute cmd
+- nickname cmd
+- say cmd
+- slowmode cmd
+- unban cmd
+- unmute cmd
+- afk cmd
+- art cmd
+- avatar cmd
+- blacklist cmd
+- c event emitter cmd
+- color cmd
+- date cmd 
+- help cmd
+- ping cmd
+- remind cmd
+- report cmd
+- role color cmd
+- score discord xp cmd
+- admin color change for roles cmd
+- serverinfo cmd
+- suggestions cmd
+- top leaderboard cmd
