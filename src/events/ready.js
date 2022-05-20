@@ -10,8 +10,8 @@ module.exports = {
 
         const presenceArr = [
             `ψ`,
-            `||-//`,
-            `|-/`
+            `under construction`,
+            `-l||l-`
         ]
         let i=0;
         setInterval(() => {
