@@ -21,7 +21,7 @@ module.exports = {
     if (isAdmin) {
       const banEmbed = new MessageEmbed()
         .setDescription(
-          `<@${target.id}> **Banned!**\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\``
+          `<@${target.id}> **Banned!**\nID: \`${target.id}\`\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\``
         )
         .setColor("#0014e9");
       await ctx.guild.members
