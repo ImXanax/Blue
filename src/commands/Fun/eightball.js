@@ -1,6 +1,7 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageActionRow, MessageButton, MessageEmbed, Message } = require("discord.js");
 module.exports = {
     name: `eightball`,
-    aliases: ['8ball','8b'],
     description: `changes base number for you`,
     execute(client,message,cmd,args,Discord) {
         if (!args[0])return message.channel.send(":diamond_shape_with_a_dot_inside: You Didn`t Provide Anything...");

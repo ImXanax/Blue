@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { Client, Intents, Collection } = require("discord.js");
 const mongoose = require("mongoose");
-const fs = require('fs');
+const fs = require("fs");
 
 const client = new Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER"],
@@ -19,16 +19,20 @@ const client = new Client({
 
 client.commands = new Collection();
 
-const functions = fs.readdirSync("./src/functions").filter((file) => file.endsWith(".js"));
-const eventFiles = fs.readdirSync("./src/events").filter((file) => file.endsWith(".js"));
+const functions = fs
+  .readdirSync(`./src/functions`)
+  .filter((file) => file.endsWith(`.js`));
+const eventFiles = fs
+  .readdirSync(`./src/events`)
+  .filter((file) => file.endsWith(`.js`));
 const commandFolders = fs.readdirSync("./src/commands");
 
-(async () =>{
-  for(file of functions){
-    require(`../src/functions/${file}`)(client);
+(async () => {
+  for (file of functions) {
+    require(`./functions/${file}`)(client);
   }
-  client.handleEvents(eventFiles,'../src/events')
-  client.handleCommands(commandFolders,`../src/commands`);
+  client.handleEvents(eventFiles, "./src/events");
+  client.handleCommands(commandFolders, `./src/commands`);
   client.handleMongo();
   client.login(process.env.TOKEN);
 })();
