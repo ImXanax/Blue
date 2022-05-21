@@ -24,6 +24,7 @@ module.exports = {
       let roles;
 
       let mentionedUser = ctx.options.getUser("user");
+      console.log(mentionedUser)
       if (mentionedUser) {
         await ctx.guild.members
           .fetch(mentionedUser.id)
@@ -32,17 +33,18 @@ module.exports = {
         }else{
           roles = ctx.member._roles;
         }
-
+        console.log(ctx.member.user.username)
       for (role of roles) {
         let mentionableRole = `<@&${role}>`;
         allRoles.push(mentionableRole);
       }
 
       for (let i = 0; i < allRoles.length; i++) {
-        userRoles += ` ${allRoles[i]} `;
+        userRoles += `\n${allRoles[i]} `;
       }
       const rolesEmbed = new MessageEmbed()
-        .setDescription(`**USER ROLES:** ${userRoles}`)
+        .setTitle(`${mentionedUser ? mentionedUser.username + '#' + mentionedUser.discriminator : ctx.member.user.username + '#' + ctx.member.user.discriminator}`)
+        .setDescription(`__**Roles:**__ ${userRoles}`)
         .setColor("#0014e9");
       ctx.reply({ embeds: [rolesEmbed] });
     } else {
