@@ -1,33 +1,32 @@
-## UPDATE LOG
-- added src dir for organnization
-- changed index.js dir
-- added events , functions, mongoEvents, schema dir
-- added command , events , mongo Handlers
-- added role display cmd
+## TO-DO LOG
 
+### FUN
 
-- clear message cmd
-- dm cmd
+### MODERATION
 - edit for dicord-xp cmd
 - mute cmd
-- nickname cmd
+- unmute cmd
+- dm cmd
 - say cmd
 - slowmode cmd
-- unmute cmd
-- afk cmd
 - art cmd
-- avatar cmd
 - blacklist cmd
 - c event emitter cmd
+- role color cmd
+- admin color change for roles cmd
+
+### UTILITY
+- top leaderboard cmd
+- score discord xp cmd
+- afk cmd
+- nickname cmd
+- avatar cmd
 - color cmd
 - date cmd 
 - help cmd
 - ping cmd
 - remind cmd
 - report cmd
-- role color cmd
-- score discord xp cmd
-- admin color change for roles cmd
 - serverinfo cmd
 - suggestions cmd
-- top leaderboard cmd
+
