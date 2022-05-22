@@ -28,7 +28,7 @@ module.exports = {
       option
         .setName("old")
         .setDescription("option to delete messages older than 2 weeks if true")
-        .setRequired(false)
+        .setRequired(true)
     ),
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
@@ -36,6 +36,13 @@ module.exports = {
     const num = ctx.options.getInteger('number')
     const filter = ctx.options.getBoolean('old')
     if (isAdmin) {
+      chl.bulkDelete(num,filter).then((m)=>{
+        console.log(`DEL MSG: ${m.size}`)
+        ctx.reply({content:`Deleted ${num} Messages...`})
+      }).catch((e)=> {
+        console.error(`ERR: ${e}`)
+        ctx.reply({content:`ERR in Deleting`})
+      })
     } else {
       ctx.reply({ content: `You Don't Have Permissions` });
     }
