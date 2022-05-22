@@ -71,8 +71,9 @@ module.exports = {
       `:small_blue_diamond: Yes but eat :fries: cause fries are amazing.`,
       `<:Thonkery:773695680609779732> Um...Xan help me with this one ? <@413755451373518864>`,
     ];
-    const eightballEmbed = MessageEmbed()
+    const eightballEmbed = new MessageEmbed()
     .setDescription(`:large_blue_diamond: ${input}\n${list[Math.floor(Math.random() * list.length)]}`)
+    .setColor('#0014e9')
     ctx.reply({embeds:[eightballEmbed]})
   },
 };
