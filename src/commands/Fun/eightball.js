@@ -10,11 +10,14 @@ module.exports = {
     .setName("eightball")
     .setDescription("8ball game random poll of answers")
     .addStringOption((option) =>
-      option.setName("text").setDescription("Message You would like to send")
+      option
+        .setName("text")
+        .setDescription("Message You would like to send")
+        .setRequired(true)
     ),
 
   async execute(ctx, client) {
-    const input = ctx.options.getString('text')
+    const input = ctx.options.getString("text");
     list = [
       `:small_blue_diamond: Yes`,
       `:small_blue_diamond: Sure`,
@@ -72,8 +75,12 @@ module.exports = {
       `<:Thonkery:773695680609779732> Um...Xan help me with this one ? <@413755451373518864>`,
     ];
     const eightballEmbed = new MessageEmbed()
-    .setDescription(`:large_blue_diamond: ${input}\n${list[Math.floor(Math.random() * list.length)]}`)
-    .setColor('#0014e9')
-    ctx.reply({embeds:[eightballEmbed]})
+      .setDescription(
+        `:large_blue_diamond: ${input}\n${
+          list[Math.floor(Math.random() * list.length)]
+        }`
+      )
+      .setColor("#0014e9");
+    ctx.reply({ embeds: [eightballEmbed] });
   },
 };
