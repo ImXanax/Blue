@@ -4,8 +4,6 @@
 
 ### MODERATION
 - edit for dicord-xp cmd
-- mute cmd
-- unmute cmd
 - dm cmd
 - say cmd
 - slowmode cmd

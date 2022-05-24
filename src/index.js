@@ -28,6 +28,10 @@ const eventFiles = fs
   .filter((file) => file.endsWith(`.js`));
 const commandFolders = fs.readdirSync("./src/commands");
 
+process.on('unhandledRejection', error => {
+	console.error('Unhandled promise rejection:', error);
+});
+
 (async () => {
   for (file of functions) {
     require(`./functions/${file}`)(client);
