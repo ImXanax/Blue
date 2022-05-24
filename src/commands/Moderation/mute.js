@@ -32,17 +32,16 @@ module.exports = {
     if (isAdmin) {
       // get mute role
       const muteRole = ctx.guild.roles.cache.find(
-        (role) => role.name === "Shush..."
+        (role) => role.id === "751532830517100677"
       );
       //mute with time
       if (time) {
-        memberTarget.roles.add(muteRole.id).then(()=>{
+        memberTarget.roles.add(muteRole).then(()=>{
           ctx.reply(`${target} is muted for **${time / 1000}** seconds`);
         }).catch(e => console.error(`ERROR: ${e}`))
-        console.log(muteRole.id);
         setTimeout(() => {
           memberTarget.roles
-            .remove(muteRole.id)
+            .remove(muteRole)
             .then((res) => console.log(`${target} unmuted`))
             .catch((e) => console.error(`ERR ${e}`));
         }, time);
