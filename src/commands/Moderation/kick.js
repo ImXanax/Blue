@@ -11,7 +11,7 @@ module.exports = {
     .setName("kick")
     .setDescription("kicks a user")
     .addUserOption((option) =>
-      option.setName("user").setDescription("the user you want kicked")
+      option.setName("user").setDescription("the user you want kicked").setRequired(true)
     ),
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
