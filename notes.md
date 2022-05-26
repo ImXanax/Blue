@@ -4,8 +4,6 @@
 
 ### MODERATION
 - edit for dicord-xp cmd
-- say cmd
-- slowmode cmd
 - art cmd
 - blacklist cmd
 - c event emitter cmd
