@@ -4,7 +4,6 @@
 
 ### MODERATION
 - edit for dicord-xp cmd
-- dm cmd
 - say cmd
 - slowmode cmd
 - art cmd
