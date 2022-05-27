@@ -7,7 +7,7 @@ const {
   Guild,
 } = require("discord.js");
 module.exports = {
-  data: new SlashCommandBuilder().setName("ping").setDescription("pings"),
+  data: new SlashCommandBuilder().setName("ping").setDescription("determines latency between the bot and api"),
   async execute(ctx, client) {
     const pingEmbed = new MessageEmbed()
       .setDescription(
