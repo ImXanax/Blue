@@ -32,7 +32,7 @@ module.exports = {
 
     //if all paramaters passed
     if (isHex) {
-      const hexImg = await Canvacord.color(hex, false, 150, 1000);
+      const hexImg = await Canvacord.color(colorCode, false, 150, 1000);
       const img = new MessageAttachment(hexImg).setName("color.jpg");
       const colorEmbed = new MessageEmbed()
         .setImage(`attachment://color.jpg`)
@@ -40,7 +40,7 @@ module.exports = {
 
       ctx
         .reply({
-          content: `**${colorCode}**`,
+          content: `__**${colorCode}**__`,
           embeds: [colorEmbed],
           files: [{ name: img.name, attachment: hexImg }],
         })
