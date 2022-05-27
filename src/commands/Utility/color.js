@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 const { color } = require("canvacord/src/Canvacord");
 const Canvacord = require("canvacord/src/Canvacord");
@@ -22,25 +23,35 @@ module.exports = {
   async execute(ctx, client) {
     //the hex input
     const hex = ctx.options.getString("hex");
-    //validate syntax of hex 
+    //validate syntax of hex
     const startsWithTag = hex.startsWith("#", 0);
     const colorCode = startsWithTag ? hex : `#${hex}`;
     //check if input is hex
     const regHex = new RegExp(/#[0-9a-f]{6}/, "i");
-    const result = regHex.test(hex);
+    const isHex = regHex.test(colorCode);
 
     //if all paramaters passed
-    if (result) {
-      const img = await Canvacord.color(hex, false, 150, 1000);
+    if (isHex) {
+      const hexImg = await Canvacord.color(hex, false, 150, 1000);
+      const img = new MessageAttachment(hexImg)
+        .setName('color.jpg')
       const colorEmbed = new MessageEmbed()
-        .attachFiles([{ name: "color.png", attachment: img }])
-        .setImage("attachment://color.png")
-        .setColor();
-        
-        ctx.reply(`****`)
-    }// if params dont match a hex code
-    else{
+        .setImage(`attachment://color.jpg`)
+        .setColor(colorCode);
 
+      ctx
+        .reply({ embeds: [colorEmbed],files:[{name: img.name, attachment: hexImg}] })
+        .then(() => {
+          console.log(`success`);
+        })
+        .catch((e) => {
+          console.error(`ERR ${e}`);
+        });
+    } // if params dont match a hex code
+    else {
+      ctx.reply({
+        content: `**${colorCode}** IS NOT A HEX CODE\n__HEX:__*#41fca2*`,
+      });
     }
   },
 };
