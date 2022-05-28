@@ -16,7 +16,6 @@
 - afk cmd
 - nickname cmd
 - avatar cmd
-- color cmd
 - date cmd 
 - help cmd
 - ping cmd
