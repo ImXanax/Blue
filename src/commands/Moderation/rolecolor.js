@@ -45,7 +45,7 @@ module.exports = {
         .then(() => {
           const embed = new MessageEmbed()
             .setDescription(
-              `${r}'s color changed\n\`${oldRoleColor}\`==>\`${r.hexColor}\``
+              `${r}'s color changed\n\`${oldRoleColor}\` ]=-=> \`${r.hexColor}\``
             )
             .setColor("#0014e9");
 
