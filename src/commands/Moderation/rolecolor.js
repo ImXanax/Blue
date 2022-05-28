@@ -40,13 +40,14 @@ module.exports = {
       const u = user ? user : ctx.user;
       //hex & formatting
       let h = hex.startsWith("#", 0);
-      h = h ? h : `#${hex}`;
+      const hexColor = h ? hex : `#${hex}`;
       const regHex = new RegExp(/#[0-9a-f]{6}/, "i");
-      const isHex = regHex.test(h);
-      if(!isHex) return ctx.reply(`**__${h}__** is not a correct hexidecimal color code`)
-      
+      const isHex = regHex.test(hexColor)
+      if(!isHex) return ctx.reply(`**__${hexColor}__** is not a correct hexidecimal color code`)
+      //u has the role?
+      console.log(u)
       //IF USER
-
+        
       //NO USER - user = ctx emitter
 
       //GET ROLE
