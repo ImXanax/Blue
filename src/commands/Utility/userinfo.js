@@ -6,6 +6,7 @@ const {
   Message,
   Guild,
 } = require("discord.js");
+const { request } = require("express");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("userinfo")
@@ -20,12 +21,18 @@ module.exports = {
     const u = ctx.options.getUser("user");
     let userEmbed = new MessageEmbed();
 
-    userEmbed.setTitle(`${ctx.user.tag}`)
-        .setDescription(
-            `**NICKNAME:** ${ctx.member.nickname}
-            **JOINED AT:** ${ctx.member.joinedAt}
-            **CREATED ACCOUNT:** ${ctx.user.createdAt}
-            `)
+    const pfp = await ctx.member.displayAvatarURL({ format: "jpg" });
+    userEmbed
+      .setTitle(`${ctx.user.tag}`)
+      .setDescription(
+        `**NICKNAME:** ${ctx.member.nickname}
+         **ID:** ${ctx.user.id}
+            **JOINED AT:**\n ${ctx.member.joinedAt}
+            **CREATED ACCOUNT:**\n ${ctx.user.createdAt}
+            `
+      )
+      .setColor("#0014e9")
+      .setThumbnail(pfp);
     ctx.reply({ embeds: [userEmbed] });
   },
 };
