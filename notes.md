@@ -7,8 +7,6 @@
 - art cmd
 - blacklist cmd
 - c event emitter cmd
-- role color cmd
-- admin color change for roles cmd
 
 ### UTILITY
 - top leaderboard cmd
@@ -21,6 +19,7 @@
 - ping cmd
 - remind cmd
 - report cmd
+- user info
 - serverinfo cmd
 - suggestions cmd
 
