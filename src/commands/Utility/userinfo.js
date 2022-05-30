@@ -21,18 +21,44 @@ module.exports = {
     const u = ctx.options.getUser("user");
     let userEmbed = new MessageEmbed();
 
-    const pfp = await ctx.member.displayAvatarURL({ format: "jpg" });
-    userEmbed
-      .setTitle(`${ctx.user.tag}`)
-      .setDescription(
-        `**NICKNAME:** ${ctx.member.nickname}
-         **ID:** ${ctx.user.id}
-            **JOINED AT:**\n ${ctx.member.joinedAt}
-            **CREATED ACCOUNT:**\n ${ctx.user.createdAt}
-            `
-      )
-      .setColor("#0014e9")
-      .setThumbnail(pfp);
-    ctx.reply({ embeds: [userEmbed] });
+    if (!u) {
+      const pfp = await ctx.member.displayAvatarURL({ format: "jpg" });
+      userEmbed
+        .setTitle(`${ctx.user.tag}`)
+        .setDescription(
+          `
+          **ACCOUNT** <@!${ctx.user.id}>
+          **NICKNAME:** ${ctx.member.nickname}
+          **ID:** ${ctx.user.id}
+          **JOINED AT:**\n ${ctx.member.joinedAt}
+          **CREATED ACCOUNT:**\n ${ctx.user.createdAt}
+          `
+        )
+        .setColor(ctx.member.displayHexColor)
+        .setThumbnail(pfp);
+      return ctx.reply({ embeds: [userEmbed] });
+    } else if (u) {
+      try {
+        const m = await ctx.guild.members.fetch(u.id);
+
+        userEmbed
+          .setTitle(`${u.tag}`)
+          .setDescription(
+          `
+          **ACCOUNT** <@!${u.id}>
+          **NICKNAME:** ${m.nickname}
+          **ID:** ${u.id}
+          **JOINED AT:**\n ${m.joinedAt}
+          **CREATED ACCOUNT:**\n ${u.createdAt}  
+          `
+          )
+          .setThumbnail(m.displayAvatarURL({ format: "jpg" }))
+          .setColor(m.displayHexColor);
+
+        return ctx.reply({ embeds: [userEmbed] });
+      } catch (e) {
+        console.error(e);
+      }
+    }
   },
 };
