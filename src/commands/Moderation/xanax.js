@@ -5,9 +5,8 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
-const e = require("express");
-const { execute } = require("../Fun/eightball");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("xanax")
@@ -30,8 +29,10 @@ module.exports = {
     ),
   async execute(ctx, client) {
     //CHK PERM
-    if (ctx.member.id !== "413755451373518864")
-      return ctx.reply({ content: `ERR` });
+    if (ctx.member.id !== "413755451373518864") {
+      const img = new MessageAttachment('src/assets/img/x.png')
+      return ctx.reply({files:[img]});
+    }
 
     //DECRYPT
     if (ctx.options.getSubcommand() === "decrypt") {
@@ -91,51 +92,51 @@ module.exports = {
       const result = decrypt(msg);
       const resultEmbed = new MessageEmbed()
         .setDescription(`\`\`\`${result}\`\`\``)
-        .setColor("#0014e9")
+        .setColor("#0014e9");
       ctx
-        .reply({embeds:[resultEmbed]})
+        .reply({ embeds: [resultEmbed] })
         .then(() => console.log)
         .catch((e) => console.error(e));
     } //ENCRYPT
     else if (ctx.options.getSubcommand() === "encrypt") {
       const msg = ctx.options.getString("input");
       const LAN = {
-        "A": "=-",
-        "B": "vv",
-        "C": ">",
-        "D": "[l",
-        "E": "ili",
-        "F": "<i",
-        "G": "[\\",
-        "H": "l+",
-        "I": ".il",
-        "J": "[/",
-        "K": "l-]",
-        "L": "-l|",
-        "M": "|l-",
-        "N": "1]",
-        "O": "<v>",
-        "P": "}{",
-        "Q": "<->",
-        "R": "<1",
-        "S": "|=-",
-        "T": "][",
-        "U": "|[",
-        "V": "<.|",
-        "W": "[-",
-        "X": ">|<",
-        "Y": "]_",
-        "Z": "]]",
-        "0": "l.l",
-        "1": "l-l",
-        "2": "ll_",
-        "3": "L-",
-        "4": "-ll",
-        "5": "LL",
-        "6": "lLl",
-        "7": "Ll",
-        "8": "-ll-",
-        "9": "ll.",
+        A: "=-",
+        B: "vv",
+        C: ">",
+        D: "[l",
+        E: "ili",
+        F: "<i",
+        G: "[\\",
+        H: "l+",
+        I: ".il",
+        J: "[/",
+        K: "l-]",
+        L: "-l|",
+        M: "|l-",
+        N: "1]",
+        O: "<v>",
+        P: "}{",
+        Q: "<->",
+        R: "<1",
+        S: "|=-",
+        T: "][",
+        U: "|[",
+        V: "<.|",
+        W: "[-",
+        X: ">|<",
+        Y: "]_",
+        Z: "]]",
+        0: "l.l",
+        1: "l-l",
+        2: "ll_",
+        3: "L-",
+        4: "-ll",
+        5: "LL",
+        6: "lLl",
+        7: "Ll",
+        8: "-ll-",
+        9: "ll.",
       };
       const encrypt = (m) => {
         return m
