@@ -19,7 +19,6 @@
 - ping cmd
 - remind cmd
 - report cmd
-- user info
 - serverinfo cmd
 - suggestions cmd
 
