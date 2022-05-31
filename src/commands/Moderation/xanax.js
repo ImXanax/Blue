@@ -29,8 +29,11 @@ module.exports = {
         )
     ),
   async execute(ctx, client) {
+    //CHK PERM
     if (ctx.member.id !== "413755451373518864")
       return ctx.reply({ content: `ERR` });
+
+    //DECRYPT
     if (ctx.options.getSubcommand() === "decrypt") {
       const msg = ctx.options.getString("input");
       const LAN = {
@@ -86,11 +89,15 @@ module.exports = {
           .trim();
       };
       const result = decrypt(msg);
+      const resultEmbed = new MessageEmbed()
+        .setDescription(`\`\`\`${result}\`\`\``)
+        .setColor("#0014e9")
       ctx
-        .reply({ content: `RESULT: ${result}` })
+        .reply({embeds:[resultEmbed]})
         .then(() => console.log)
         .catch((e) => console.error(e));
-    } else if (ctx.options.getSubcommand() === "encrypt") {
+    } //ENCRYPT
+    else if (ctx.options.getSubcommand() === "encrypt") {
       const msg = ctx.options.getString("input");
       const LAN = {
         "A": "=-",
@@ -128,14 +135,26 @@ module.exports = {
         "6": "lLl",
         "7": "Ll",
         "8": "-ll-",
-        "9": "ll."
+        "9": "ll.",
       };
-      const encrypt = (m)=>{
-        return m.split(' ').map(char => char.split('').map(letter => LAN[letter.toUpperCase()]).join(' ')).join('   ').trim()
-      }
-      const result = encrypt(msg)
+      const encrypt = (m) => {
+        return m
+          .split(" ")
+          .map((char) =>
+            char
+              .split("")
+              .map((letter) => LAN[letter.toUpperCase()])
+              .join(" ")
+          )
+          .join("   ")
+          .trim();
+      };
+      const result = encrypt(msg);
+      const resultEmbed = new MessageEmbed()
+        .setDescription(`\`\`\`${result}\`\`\``)
+        .setColor("#0014e9");
       ctx
-        .reply({ content: `RESULT: \`${result}\``})
+        .reply({ embeds: [resultEmbed] })
         .then(() => console.log)
         .catch((e) => console.error(e));
     }
