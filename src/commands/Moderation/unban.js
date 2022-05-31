@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -16,7 +17,8 @@ module.exports = {
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
     const target = ctx.options.getString("id");
-    if (isAdmin) {
+    if (!isAdmin) {const img = new MessageAttachment('src/assets/img/x.png')
+    return ctx.reply({files:[img]});}
       const unbanEmbed = new MessageEmbed()
         .setDescription(`**${target}** has been unbanned !`)
         .setColor("#0014e9");
@@ -24,8 +26,5 @@ module.exports = {
         .unban(target)
         .then(ctx.reply({ embeds: [unbanEmbed] }))
         .catch((e) => console.log(e));
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
-    }
   },
 };

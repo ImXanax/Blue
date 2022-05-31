@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -42,7 +43,10 @@ module.exports = {
 
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
-    if (isAdmin) {
+    if (!isAdmin) {
+      const img = new MessageAttachment('src/assets/img/x.png')
+      return ctx.reply({files:[img]});
+    }
       //subcommand
 
       if (ctx.options.getSubcommand() === "on") {
@@ -86,8 +90,6 @@ module.exports = {
           })
           .catch((e) => console.error(`ERR: ${e}`));
       }
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
-    }
+  
   },
 };

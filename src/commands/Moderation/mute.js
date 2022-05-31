@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -29,35 +30,37 @@ module.exports = {
     const target = ctx.options.getUser("user");
     const memberTarget = ctx.guild.members.cache.get(target.id);
 
-    if (isAdmin) {
-      // get mute role
-      const muteRole = ctx.guild.roles.cache.find(
-        (role) => role.id === "751532830517100677"
-      );
-      //mute with time
-      if (time) {
-        memberTarget.roles.add(muteRole).then(()=>{
+    if (!isAdmin) {
+      const img = new MessageAttachment("src/assets/img/x.png");
+      return ctx.reply({ files: [img] });
+    }
+    // get mute role
+    const muteRole = ctx.guild.roles.cache.find(
+      (role) => role.id === "751532830517100677"
+    );
+    //mute with time
+    if (time) {
+      memberTarget.roles
+        .add(muteRole)
+        .then(() => {
           ctx.reply(`${target} is muted for **${time / 1000}** seconds`);
-        }).catch(e => console.error(`ERROR: ${e}`))
-        setTimeout(() => {
-          memberTarget.roles
-            .remove(muteRole)
-            .then((res) => console.log(`${target} unmuted`))
-            .catch((e) => console.error(`ERR ${e}`));
-        }, time);
-       
-      }
-      //mute till unmuted
-      else {
+        })
+        .catch((e) => console.error(`ERROR: ${e}`));
+      setTimeout(() => {
         memberTarget.roles
-          .add(muteRole)
-          .then(() => {
-            ctx.reply(`${target} has been muted`);
-          })
-          .catch((e) => console.error(`ERR: ${e}`));
-      }
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
+          .remove(muteRole)
+          .then((res) => console.log(`${target} unmuted`))
+          .catch((e) => console.error(`ERR ${e}`));
+      }, time);
+    }
+    //mute till unmuted
+    else {
+      memberTarget.roles
+        .add(muteRole)
+        .then(() => {
+          ctx.reply(`${target} has been muted`);
+        })
+        .catch((e) => console.error(`ERR: ${e}`));
     }
   },
 };

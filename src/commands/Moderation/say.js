@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,16 +27,16 @@ module.exports = {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
     const msg = ctx.options.getString("text");
     const chl = ctx.options.getChannel("channel");
-    if (isAdmin) {
-      //   let chlEmbed = new MessageEmbed()
-      //     .setTitle()
-      //     .setDescription()
-      //     .setColor("#0014e9");
-      chl.send({content: msg}).then(()=>{
-          ctx.reply({content:`\`${msg}\` has been sent to <#${chl.id}>`})
-      })
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
+    if (!isAdmin) {
+      const img = new MessageAttachment("src/assets/img/x.png");
+      return ctx.reply({ files: [img] });
     }
+    //   let chlEmbed = new MessageEmbed()
+    //     .setTitle()
+    //     .setDescription()
+    //     .setColor("#0014e9");
+    chl.send({ content: msg }).then(() => {
+      ctx.reply({ content: `\`${msg}\` has been sent to <#${chl.id}>` });
+    });
   },
 };

@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,19 +33,22 @@ module.exports = {
     ),
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
-    const chl = ctx.options.getChannel('channel')
-    const num = ctx.options.getInteger('number')
-    const filter = ctx.options.getBoolean('old')
-    if (isAdmin) {
-      chl.bulkDelete(num,filter).then((m)=>{
-        console.log(`DEL MSG: ${m.size}`)
-        ctx.reply({content:`Deleted ${num} Messages...`})
-      }).catch((e)=> {
-        console.error(`ERR: ${e}`)
-        ctx.reply({content:`ERR in Deleting`})
-      })
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
+    const chl = ctx.options.getChannel("channel");
+    const num = ctx.options.getInteger("number");
+    const filter = ctx.options.getBoolean("old");
+    if (!isAdmin) {
+      const img = new MessageAttachment("src/assets/img/x.png");
+      return ctx.reply({ files: [img] });
     }
+    chl
+      .bulkDelete(num, filter)
+      .then((m) => {
+        console.log(`DEL MSG: ${m.size}`);
+        ctx.reply({ content: `Deleted ${num} Messages...` });
+      })
+      .catch((e) => {
+        console.error(`ERR: ${e}`);
+        ctx.reply({ content: `ERR in Deleting` });
+      });
   },
 };

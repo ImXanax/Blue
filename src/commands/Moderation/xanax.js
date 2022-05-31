@@ -30,8 +30,8 @@ module.exports = {
   async execute(ctx, client) {
     //CHK PERM
     if (ctx.member.id !== "413755451373518864") {
-      const img = new MessageAttachment('src/assets/img/x.png')
-      return ctx.reply({files:[img]});
+        const img = new MessageAttachment('src/assets/img/x.png')
+        return ctx.reply({files:[img]});
     }
 
     //DECRYPT

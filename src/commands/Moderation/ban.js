@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 const e = require("express");
 const { execute } = require("../Fun/eightball");
@@ -18,7 +19,10 @@ module.exports = {
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
     const target = ctx.options.getUser("user");
-    if (isAdmin) {
+    if (!isAdmin){
+      const img = new MessageAttachment('src/assets/img/x.png')
+      return ctx.reply({files:[img]});
+    }
       const banEmbed = new MessageEmbed()
         .setDescription(
           `<@${target.id}> **Banned!**\nID: \`${target.id}\`\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\``
@@ -28,8 +32,5 @@ module.exports = {
         .ban(target)
         .then(ctx.reply({ embeds: [banEmbed] }))
         .catch((e) => console.log(e));
-    } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
-    }
   },
 };

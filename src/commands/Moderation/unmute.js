@@ -5,6 +5,7 @@ const {
   MessageEmbed,
   Message,
   Guild,
+  MessageAttachment,
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,23 +24,26 @@ module.exports = {
     const memberTarget = ctx.guild.members.cache.get(target.id);
     let isMuted = false;
 
-    if (isAdmin) {
-      // get mute role
-      const muteRole = ctx.guild.roles.cache.find(
-        (role) => role.id === "751532830517100677"
-      );
-      memberTarget.roles.cache.some((role) => {
-        if (role.id === muteRole.id) isMuted = true;
-      });
-      if (isMuted) {
-          memberTarget.roles.remove(muteRole).then(()=>{
-              ctx.reply(`${target} has been unmuted`)
-          }).catch(e => console.error(`ERR: ${e}`))
-      }else{
-        ctx.reply(`${target} is already unmuted`)
-      }
+    if (!isAdmin) {
+      const img = new MessageAttachment("src/assets/img/x.png");
+      return ctx.reply({ files: [img] });
+    }
+    // get mute role
+    const muteRole = ctx.guild.roles.cache.find(
+      (role) => role.id === "751532830517100677"
+    );
+    memberTarget.roles.cache.some((role) => {
+      if (role.id === muteRole.id) isMuted = true;
+    });
+    if (isMuted) {
+      memberTarget.roles
+        .remove(muteRole)
+        .then(() => {
+          ctx.reply(`${target} has been unmuted`);
+        })
+        .catch((e) => console.error(`ERR: ${e}`));
     } else {
-      ctx.reply({ content: `You Don't Have Permissions` });
+      ctx.reply(`${target} is already unmuted`);
     }
   },
 };
