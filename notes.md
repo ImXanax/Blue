@@ -16,7 +16,6 @@
 - avatar cmd
 - date cmd 
 - help cmd
-- ping cmd
 - remind cmd
 - report cmd
 - serverinfo cmd
