@@ -12,12 +12,8 @@
 - top leaderboard cmd
 - score discord xp cmd
 - afk cmd
-- nickname cmd
-- avatar cmd
 - date cmd 
 - help cmd
 - remind cmd
-- report cmd
-- serverinfo cmd
 - suggestions cmd
 
