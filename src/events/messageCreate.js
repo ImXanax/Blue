@@ -1,5 +1,6 @@
 const { Embed } = require("@discordjs/builders");
 const {MessageEmbed} = require("discord.js");
+const test = require('../functions/test')
 module.exports = {
     name: 'messageCreate',
     on: true,
@@ -15,6 +16,9 @@ module.exports = {
                 chl.send({embeds:[dmEmbed]})
             }).catch(e=>console.log(`ERR FETCHING CHANNEL: ${e}`))
         }
+
+        test('hi')
+
        
     }
 };
