@@ -9,8 +9,8 @@ const {
 } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("xanax")
-    .setDescription("mysterious outcomes")
+    .setName("x")
+    .setDescription('=- > > ili |=- |=-   [l ili 1] .il ili [l')
     .addSubcommand((subcmd) =>
       subcmd
         .setName("decrypt")
@@ -77,7 +77,7 @@ module.exports = {
       };
 
       const decrypt = (m) => {
-        //|l- ]_   1] =- |l- ili   .il |=-   |l- ili <1 =- [/
+        
         return m
           .split("   ")
           .map((w) =>

@@ -10,15 +10,16 @@ module.exports = {
 
         const presenceArr = [
             `ψ`,
-            `under construction`,
-            `-l||l-`
+            `<X>`,
+            `DEATH OF PEACE OF MIND`,
+            `vv |[ ][ ][ ili <1 <i -l| ]_`
         ]
         let i=0;
         setInterval(() => {
             client.user.setPresence({
                 activities: [{ 
                     name: presenceArr[i++ % presenceArr.length],
-                    type: `WATCHING`,
+                    type: `LISTENING`,
                    }] 
             });
         }, 5000);
