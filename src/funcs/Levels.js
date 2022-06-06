@@ -85,14 +85,14 @@ class Levels {
       });
       await newUser
         .save()
-        .catch((e) => console.error(`ERR IN SAVING USER ${e}`));
+        .catch((e) => console.error(`ERR IN SAVING NEWUSER ${e}`));
       return Math.floor(0.1 * Math.sqrt(xp)) > 0;
     }
 
     user.xp += parseInt(xp, 10);
     user.level += Math.floor(0.1 * Math.sqrt(user.xp));
     user.lastUpdated = new Date();
-    await user.save().catch((e) => console.error(`ERR in saving user ${e}`));
+    await user.save().catch((e) => console.error(`ERR IN ADDING XP: ${e}`));
   }
 
   /**
@@ -115,7 +115,7 @@ class Levels {
     user.xp += user.level * user.level * 100;
     user.lastUpdated = new Date();
 
-    user.save().catch((e) => console.error(`ERR in saving user: ${e}`));
+    user.save().catch((e) => console.error(`ERR IN ADDING LEVEL: ${e}`));
     return user;
   }
 
@@ -139,6 +139,27 @@ class Levels {
     user.level = Math.floor(0.1 * Math.sqrt(xp));
     user.lastUpdated = new Date();
 
+    user.save().catch((e) => console.error(`ERR IN SETTING XP: ${e}`));
+    return user;
+  }
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {number} [levels] - the amount of levels to be set.
+   */
+  static async setLevel(userId, guildId, levels) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!levels) throw new TypeError(`levels wasn't provided`);
+
+    const user = levelSchema.findOne({ userID: userId, guildID: guildId });
+    if (!user) return false;
+
+    user.level = levels;
+    user.xp = user.level * user.level * 100;
+    user.lastUpdated = new Date();
+
+    user.save().catch((e) => console.error(`ERR IN SETTING LEVEL: ${e}`));
     return user;
   }
 }
