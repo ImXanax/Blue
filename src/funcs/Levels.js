@@ -64,7 +64,7 @@ class Levels {
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
-   * @param {string} [xp] - amount of xp to increase.
+   * @param {number} [xp] - amount of xp to increase.
    */
   static async addXp(userId, guildId, xp) {
     if (!userId) throw new TypeError(`userId wasn't provided`);
@@ -94,6 +94,27 @@ class Levels {
     user.lastUpdated = new Date();
     await user.save().catch((e) => console.error(`ERR in saving user ${e}`));
   }
+
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {number} [levels] - the amount of levels to add.
+   */
+   static async addLevel(userId, guildId, levels){
+       if(!userId) throw new TypeError(`userId wasn't provided`)
+       if(!guildId) throw new TypeError(`guildId wasn't provided`)
+       if(!levels) throw new TypeError(`levels wasn't provided`)
+
+       const user = await levelSchema.findOne({userID: userId , guildID:guildId})
+       if(!user) return false
+
+       user.level += parseInt(level , 10);
+       user.xp += user.level * user.level * 100;
+       user.lastUpdated = new Date();
+
+       user.save().catch(e=> console.error(`ERR in saving user: ${e}`))
+       return user
+   }
 }
 
 module.exports = Levels;
