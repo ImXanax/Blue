@@ -16,8 +16,10 @@ class Levels {
     });
   }
 
-  static async sayHi(msg){
-      return console.log(msg)
+  static async createUser(userId,guildId){
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    const isUser = await levelSchema.findOne({})
   }
 }
 
