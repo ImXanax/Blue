@@ -20,19 +20,39 @@ class Levels {
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
    */
-  static async createUser(userId,guildId){
+  static async createUser(userId, guildId) {
     if (!userId) throw new TypeError(`userId wasn't provided`);
     if (!guildId) throw new TypeError(`guildId wasn't provided`);
-    const isUser = await levelSchema.findOne({userID:userId , guildID: guildId})
-    if(isUser) return false
+    const isUser = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (isUser) return false;
 
     const newUser = new levelSchema({
-        userID: userId,
-        guildID: guildId,
-    })
+      userID: userId,
+      guildID: guildId,
+    });
 
-    await newUser.save().catch(e => console.error(`ERR IN CREATING USER: ${e}`))
-    return newUser
+    await newUser
+      .save()
+      .catch((e) => console.error(`ERR IN CREATING USER: ${e}`));
+    return newUser;
+  }
+
+  static async deleteUser(userId, guildId) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    //user
+    const u = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if(!u) return false
+
+    await levelSchema.findAndDeleteOne({userID:userId,guildID:guildId}).catch(e=>console.error(`ERR IN DELETING USER: ${e}`))
+    
+    return u
   }
 }
 
