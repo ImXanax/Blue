@@ -100,21 +100,47 @@ class Levels {
    * @param {string} [guildId] - the user's server Id.
    * @param {number} [levels] - the amount of levels to add.
    */
-   static async addLevel(userId, guildId, levels){
-       if(!userId) throw new TypeError(`userId wasn't provided`)
-       if(!guildId) throw new TypeError(`guildId wasn't provided`)
-       if(!levels) throw new TypeError(`levels wasn't provided`)
+  static async addLevel(userId, guildId, levels) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!levels) throw new TypeError(`levels wasn't provided`);
 
-       const user = await levelSchema.findOne({userID: userId , guildID:guildId})
-       if(!user) return false
+    const user = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (!user) return false;
 
-       user.level += parseInt(level , 10);
-       user.xp += user.level * user.level * 100;
-       user.lastUpdated = new Date();
+    user.level += parseInt(level, 10);
+    user.xp += user.level * user.level * 100;
+    user.lastUpdated = new Date();
 
-       user.save().catch(e=> console.error(`ERR in saving user: ${e}`))
-       return user
-   }
+    user.save().catch((e) => console.error(`ERR in saving user: ${e}`));
+    return user;
+  }
+
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {number} [xp] - the amount of xp to be set.
+   */
+  static async setXp(userId, guildId, xp) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!xp || xp == 0 || isNaN(parseInt(xp)))
+      throw new TypeError(`invalid XP amount`);
+    const user = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (!user) return false;
+
+    user.xp = xp;
+    user.level = Math.floor(0.1 * Math.sqrt(xp));
+    user.lastUpdated = new Date();
+
+    return user;
+  }
 }
 
 module.exports = Levels;
