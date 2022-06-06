@@ -2,7 +2,7 @@ require("dotenv").config();
 const { Client, Intents, Collection } = require("discord.js");
 const mongoose = require("mongoose");
 const fs = require("fs");
-
+const Levels = require('./funcs/Levels')
 const client = new Client({
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER"],
   intents: [
@@ -32,6 +32,7 @@ process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
 });
 
+
 (async () => {
   for (file of functions) {
     require(`./functions/${file}`)(client);
@@ -40,4 +41,5 @@ process.on('unhandledRejection', error => {
   client.handleCommands(commandFolders, './src/commands');
   client.handleMongo();
   client.login(process.env.TOKEN);
+  Levels.mongoURL(`${process.env.BLUE_SRV}`)
 })();
