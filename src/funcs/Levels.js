@@ -40,6 +40,10 @@ class Levels {
     return newUser;
   }
 
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   */
   static async deleteUser(userId, guildId) {
     if (!userId) throw new TypeError(`userId wasn't provided`);
     if (!guildId) throw new TypeError(`guildId wasn't provided`);
@@ -48,11 +52,47 @@ class Levels {
       userID: userId,
       guildID: guildId,
     });
-    if(!u) return false
+    if (!u) return false;
 
-    await levelSchema.findAndDeleteOne({userID:userId,guildID:guildId}).catch(e=>console.error(`ERR IN DELETING USER: ${e}`))
-    
-    return u
+    await levelSchema
+      .findAndDeleteOne({ userID: userId, guildID: guildId })
+      .catch((e) => console.error(`ERR IN DELETING USER: ${e}`));
+
+    return u;
+  }
+
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {string} [xp] - amount of xp to increase.
+   */
+  static async addXp(userId, guildId, xp) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!xp || xp == 0 || isNaN(parseInt(xp)))
+      throw new TypeError(`invalid XP amount`);
+
+    const user = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (!user) {
+      const newUser = new levelSchema({
+        userID: userId,
+        guildID: guildId,
+        xp: xp,
+        level: Math.floor(0.1 * Math.sqrt(xp)),
+      });
+      await newUser
+        .save()
+        .catch((e) => console.error(`ERR IN SAVING USER ${e}`));
+      return Math.floor(0.1 * Math.sqrt(xp)) > 0;
+    }
+
+    user.xp += parseInt(xp, 10);
+    user.level += Math.floor(0.1 * Math.sqrt(user.xp));
+    user.lastUpdated = new Date();
+    await user.save().catch((e) => console.error(`ERR in saving user ${e}`));
   }
 }
 
