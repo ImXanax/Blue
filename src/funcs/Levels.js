@@ -222,16 +222,33 @@ class Levels {
     if (!userId) throw new TypeError(`userId wasn't provided`);
     if (!guildId) throw new TypeError(`guildId wasn't provided`);
     if (!levels) throw new TypeError(`levels wasn't provided`);
-    const user = await levelSchema.findOne({userID: userId, guildID: guildId})
-    if(!user) return false
+    const user = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (!user) return false;
 
-    user.level -= level
-    user.xp = user.level * user.level * 100
-    user.lastUpdated = new Date()
+    user.level -= level;
+    user.xp = user.level * user.level * 100;
+    user.lastUpdated = new Date();
 
-    user.save().catch(e => console.error(`ERR in subtracting level: ${e}`))
+    user.save().catch((e) => console.error(`ERR in subtracting level: ${e}`));
 
-    return user
+    return user;
+  }
+
+  /**
+   * @param {string} [guildId] - the user's guild Id.
+   * @param {number} [limit] - the limit for the search.
+   */
+  static async getLb(guildId, limit) {
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!limit) throw new TypeError(`a limit wasn't provided`);
+
+    let allUser = await levelSchema.find({guildID: guildId}).sort([['xp','descending']]).exec()
+
+    return allUser.slice(0,limit)
+    
   }
 }
 
