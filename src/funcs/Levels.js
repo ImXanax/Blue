@@ -162,6 +162,29 @@ class Levels {
     user.save().catch((e) => console.error(`ERR IN SETTING LEVEL: ${e}`));
     return user;
   }
+
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   */
+  static async fetch(userId, guildId, position = false) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+
+    const user = levelSchema.findOne({ userID: userId, guildID: guildId });
+
+    if (!user) return false;
+    if (position === true) {
+      //leaderboard
+      const lb = await levelSchema
+        .find({
+          guildID: guildId,
+        })
+        .sort([["xp", "descending"]])
+        .exec();
+      user.position = lb.findIndex((i) => i.userID === userId) + 1;
+    }
+  }
 }
 
 module.exports = Levels;
