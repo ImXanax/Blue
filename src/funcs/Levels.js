@@ -213,7 +213,26 @@ class Levels {
     return user;
   }
 
-  
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {number} [level] - amount of level you want subtracted.
+   */
+  static async subLevel(userId, guildId, level) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!levels) throw new TypeError(`levels wasn't provided`);
+    const user = await levelSchema.findOne({userID: userId, guildID: guildId})
+    if(!user) return false
+
+    user.level -= level
+    user.xp = user.level * user.level * 100
+    user.lastUpdated = new Date()
+
+    user.save().catch(e => console.error(`ERR in subtracting level: ${e}`))
+
+    return user
+  }
 }
 
 module.exports = Levels;
