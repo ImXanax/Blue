@@ -93,6 +93,7 @@ class Levels {
     user.level += Math.floor(0.1 * Math.sqrt(user.xp));
     user.lastUpdated = new Date();
     await user.save().catch((e) => console.error(`ERR IN ADDING XP: ${e}`));
+    return Math.floor(0.1 * Math.sqrt((user.xp -= xp)) < user.level);
   }
 
   /**
@@ -184,7 +185,35 @@ class Levels {
         .exec();
       user.position = lb.findIndex((i) => i.userID === userId) + 1;
     }
+    user.cleanXp = user.xp - this.xpFor(user.level);
+    user.cleanNextLevelXp = this.xpFor(user.level + 1) - this.xpFor(user.level);
+    return user;
   }
+
+  /**
+   * @param {string} [userId] - the user's Id.
+   * @param {string} [guildId] - the user's server Id.
+   * @param {number} [xp] - amount of xp you want subtracted.
+   */
+  static async subXp(userId, guildId, xp) {
+    if (!userId) throw new TypeError(`userId wasn't provided`);
+    if (!guildId) throw new TypeError(`guildId wasn't provided`);
+    if (!xp || xp == 0 || isNaN(parseInt(xp)))
+      throw new TypeError(`invalid XP amount`);
+
+    const user = await levelSchema.findOne({
+      userID: userId,
+      guildID: guildId,
+    });
+    if (!user) return false;
+    user.xp -= xp;
+    user.level = Math.floor(0.1 * Math.sqrt(user.xp));
+    user.lastUpdated = new Date();
+    user.save().catch((e) => console.error(`ERR in subtracting xp: ${e}`));
+    return user;
+  }
+
+  
 }
 
 module.exports = Levels;
