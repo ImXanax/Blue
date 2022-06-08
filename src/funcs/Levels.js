@@ -245,10 +245,23 @@ class Levels {
     if (!guildId) throw new TypeError(`guildId wasn't provided`);
     if (!limit) throw new TypeError(`a limit wasn't provided`);
 
-    let allUser = await levelSchema.find({guildID: guildId}).sort([['xp','descending']]).exec()
+    let allUser = await levelSchema
+      .find({ guildID: guildId })
+      .sort([["xp", "descending"]])
+      .exec();
 
-    return allUser.slice(0,limit)
-    
+    return allUser.slice(0, limit);
+  }
+  /**
+   *@param {number} [level] - Xp required to reach that level.
+   */
+  static calXp(level) {
+    if (isNaN(level) || isNaN(parseInt(level, 10)))
+      throw new TypeError("Target level should be a valid number.");
+    if (isNaN(level)) level = parseInt(level, 10);
+    if (level < 0)
+      throw new RangeError("Target level should be a positive number.");
+    return level * level * 100;
   }
 }
 
