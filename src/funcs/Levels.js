@@ -3,6 +3,7 @@ const levelSchema = require("../schema/levelSchema");
 var mongoURL;
 
 class Levels {
+  //SET URL
   /**
    * @param {string} [mongoURL] - A mongoDB database URI.
    */
@@ -16,6 +17,7 @@ class Levels {
     });
   }
 
+  //CREATING USER
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -40,6 +42,7 @@ class Levels {
     return newUser;
   }
 
+  //DELETING USER
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -61,6 +64,7 @@ class Levels {
     return u;
   }
 
+  //ADDING XP
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -96,6 +100,7 @@ class Levels {
     return Math.floor(0.1 * Math.sqrt((user.xp -= xp)) < user.level);
   }
 
+  //ADDING LEVEL
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -120,6 +125,7 @@ class Levels {
     return user;
   }
 
+  //SETTING XP
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -143,6 +149,8 @@ class Levels {
     user.save().catch((e) => console.error(`ERR IN SETTING XP: ${e}`));
     return user;
   }
+
+  //SETTING LEVEL
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -164,6 +172,7 @@ class Levels {
     return user;
   }
 
+  //FETCH
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -190,6 +199,7 @@ class Levels {
     return user;
   }
 
+  //SUBTRACTING XP
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -213,6 +223,7 @@ class Levels {
     return user;
   }
 
+  //SUBTRACING LEVEL
   /**
    * @param {string} [userId] - the user's Id.
    * @param {string} [guildId] - the user's server Id.
@@ -237,6 +248,7 @@ class Levels {
     return user;
   }
 
+  //GETTING LEADERBOARD
   /**
    * @param {string} [guildId] - the user's guild Id.
    * @param {number} [limit] - the limit for the search.
@@ -252,10 +264,12 @@ class Levels {
 
     return allUser.slice(0, limit);
   }
+
+  //CALCULATING XP
   /**
    *@param {number} [level] - Xp required to reach that level.
    */
-  static calXp(level) {
+  static async calXp(level) {
     if (isNaN(level) || isNaN(parseInt(level, 10)))
       throw new TypeError("Target level should be a valid number.");
     if (isNaN(level)) level = parseInt(level, 10);
@@ -264,6 +278,7 @@ class Levels {
     return level * level * 100;
   }
 
+  //CALCULATING LEADERBOARD
   /**
    * @param {string} [client] - the discord client.
    * @param {array} [leaderboard] - output of getLb.
