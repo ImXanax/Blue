@@ -269,7 +269,7 @@ class Levels {
    * @param {array} [leaderboard] - output of getLb.
    */
 
-  static async computeLeaderboard(client, ld, getUsers = false) {
+  static async calLd(client, ld, getUsers = false) {
     if (!client) throw new TypeError("client wasn't provided.");
     if (!ld) throw new TypeError("leaderboard's ID wasn't provided.");
 
