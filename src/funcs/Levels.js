@@ -176,7 +176,7 @@ class Levels {
 
     if (!user) return false;
     if (position === true) {
-      //leaderboard
+      //ld
       const lb = await levelSchema
         .find({
           guildID: guildId,
@@ -262,6 +262,62 @@ class Levels {
     if (level < 0)
       throw new RangeError("Target level should be a positive number.");
     return level * level * 100;
+  }
+
+  /**
+   * @param {string} [client] - the discord client.
+   * @param {array} [leaderboard] - output of getLb.
+   */
+
+  static async computeLeaderboard(client, ld, getUsers = false) {
+    if (!client) throw new TypeError("client wasn't provided.");
+    if (!ld) throw new TypeError("leaderboard's ID wasn't provided.");
+
+    if (ld.length < 1) return [];
+
+    const computedArray = [];
+
+    if (getUsers) {
+      for (const key of ld) {
+        const user = (await client.users.fetch(key.userID)) || {
+          username: "Unknown",
+          discriminator: "0000",
+        };
+        computedArray.push({
+          guildID: key.guildID,
+          userID: key.userID,
+          xp: key.xp,
+          level: key.level,
+          position:
+            ld.findIndex(
+              (i) => i.guildID === key.guildID && i.userID === key.userID
+            ) + 1,
+          username: user.username,
+          discriminator: user.discriminator,
+        });
+      }
+    } else {
+      ld.map((key) =>
+        computedArray.push({
+          guildID: key.guildID,
+          userID: key.userID,
+          xp: key.xp,
+          level: key.level,
+          position:
+            ld.findIndex(
+              (i) => i.guildID === key.guildID && i.userID === key.userID
+            ) + 1,
+          username: client.users.cache.get(key.userID)
+            ? client.users.cache.get(key.userID).username
+            : "Unknown",
+          discriminator: client.users.cache.get(key.userID)
+            ? client.users.cache.get(key.userID).discriminator
+            : "0000",
+        })
+      );
+    }
+
+    return computedArray;
   }
 }
 
