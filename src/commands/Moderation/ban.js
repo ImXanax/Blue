@@ -14,7 +14,7 @@ module.exports = {
     .setName("ban")
     .setDescription("bans a user")
     .addUserOption((option) =>
-      option.setName("user").setDescription("the user you want banned")
+      option.setName("user").setDescription("the user you want banned").setRequired(true)
     ),
   async execute(ctx, client) {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
