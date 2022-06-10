@@ -25,8 +25,8 @@ module.exports = {
     }
       const banEmbed = new MessageEmbed()
         .setDescription(
-          `<@${target.id}> **Banned!**\nID: \`${target.id}\`\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\``
-        )
+          `<@${target.id}> **Banned!**\n\`\nBot: \`${target.bot}\`\nUsername: \`${target.username}#${target.discriminator}\`\nJoined At: \`${u}\`\n`
+        ).setFooter({text:`ID: ${target.id} - ${ctx.createdAt}`})
         .setColor("#0014e9");
       await ctx.guild.members
         .ban(target)
