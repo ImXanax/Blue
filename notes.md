@@ -1,11 +1,8 @@
 ## TO-DO LOG
-
-### FUN
+- level system
 
 ### MODERATION
 - art cmd
-- blacklist cmd
-- c event emitter cmd
 
 ### UTILITY
 - top leaderboard cmd
