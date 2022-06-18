@@ -1,5 +1,6 @@
 ## TO-DO LOG
 - level system
+- add IR / BST / GMT timezones to time.js
 
 ### MODERATION
 - art cmd
