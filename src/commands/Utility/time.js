@@ -21,6 +21,7 @@ module.exports = {
         :flag_us: \`NY/EST:\`\n ${moment().tz('America/New_York').format('**HH:mm** - dddd, MMMM Do')}\n
         :flag_au: \`AU/EST:\`\n ${moment().tz('Australia/Sydney').format('**HH:mm** - dddd, MMMM Do')}\n
         :flag_jp: \`TK/JST:\`\n ${moment().tz('Asia/Tokyo').format('**HH:mm** - dddd, MMMM Do')}\n
+        :flag_ir: \`IR/IRST:\`\n ${moment().tz('Asia/Tehran').format('**HH:mm** - dddd, MMMM Do')}\n
         `).setColor('#0014e9')
 
     ctx.reply({embeds:[dateEmbed]})
