@@ -16,23 +16,29 @@ module.exports = {
     .setDescription("calculates the inputs"),
   async execute(ctx, client) {
     /*
-     *
+     b = backspace
+     m = minus
+     p = plus
+     t = times
+     e = equal
+     d = divide
+     c = clear
      */
     const rows = [
       new MessageActionRow().addComponents([
         new MessageButton({
           customId: ".",
-          style: "PRIMARY",
-          label: "<:dot13:866172220799844372>",
+          style: "SECONDARY",
+          label: "▪️",
         }),
         new MessageButton({
           customId: "(",
-          style: "PRIMARY",
+          style: "SECONDARY",
           label: "(",
         }),
         new MessageButton({
           customId: ")",
-          style: "PRIMARY",
+          style: "SECONDARY",
           label: ")",
         }),
         new MessageButton({
@@ -134,7 +140,8 @@ module.exports = {
     const msg = await ctx.reply({
       components: rows,
       embeds:[{
-        description:"\`\`\`RESULTS ARE DISPLAYED HERE.\`\`\`"
+        description:"\`\`\`RESULTS ARE BEING DISPLAYED HERE.\`\`\`",
+        color: '#0014e9'
       }],
       fetchReply: true
     })
