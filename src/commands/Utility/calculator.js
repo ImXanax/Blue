@@ -8,7 +8,7 @@ const {
   MessageAttachment,
 } = require("discord.js");
 
-const math = require('mathjs')
+const math = require("mathjs");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -64,7 +64,7 @@ module.exports = {
           label: "9",
         }),
         new MessageButton({
-          customId: "p",
+          customId: "+",
           style: "SECONDARY",
           label: "+",
         }),
@@ -86,7 +86,7 @@ module.exports = {
           label: "6",
         }),
         new MessageButton({
-          customId: "m",
+          customId: "-",
           style: "SECONDARY",
           label: "-",
         }),
@@ -108,7 +108,7 @@ module.exports = {
           label: "3",
         }),
         new MessageButton({
-          customId: "t",
+          customId: "*",
           style: "SECONDARY",
           label: "x",
         }),
@@ -130,7 +130,7 @@ module.exports = {
           label: "=",
         }),
         new MessageButton({
-          customId: "d",
+          customId: "/",
           style: "SECONDARY",
           label: "/",
         }),
@@ -139,24 +139,61 @@ module.exports = {
 
     const msg = await ctx.reply({
       components: rows,
-      embeds:[{
-        description:"\`\`\`RESULTS ARE BEING DISPLAYED HERE.\`\`\`",
-        color: '#0014e9'
-      }],
-      fetchReply: true
-    })
-    const filter = (i) => i.user.id === ctx.user.id
-    const msgCol = msg.createMessageComponentCollector(filter,1200000)
+      embeds: [
+        {
+          description: "```RESULTS ARE BEING DISPLAYED HERE.```",
+          color: "#0014e9",
+        },
+      ],
+      fetchReply: true,
+    });
+    const filter = (i) => i.user.id === ctx.user.id;
+    const msgCol = msg.createMessageComponentCollector(filter, 1200000);
 
-    let res = ''
-    msgCol.on('collect',async (i)=>{
-      if(i.customId === 'e'){
-        try{
-          res = math.evaluate(res)
-        }catch(e){
-          res = '1010://ERR | click on C to restart'
+    let res = "";
+    msgCol.on("collect", async (i) => {
+      if (i.customId === "e") {
+        try {
+          res = math.evaluate(res).toString();
+        } catch (e) {
+          res = "ERR:1010<<|=- click on C to restart";
         }
+      } else if (i.customId === "c") {
+        res = "";
+      } else if (i.customId === "b") {
+        res = res.slice(0, res.length - 2);
+      } else {
+        const lastChar = res[res.length - 1];
+        res +=
+          `${
+            (parseInt(i.customId) == i.customId || i.customId === ".") &&
+            (lastChar == parseInt(lastChar) || lastChar === ".")
+              ? ""
+              : " "
+          }` + i.customId;
       }
-    })
+      i.update({
+        embeds: [
+          {
+            color: "#0014e9",
+            description: `\`\`\`${res || `RESULTS ARE DISPLAYED HERE`}\`\`\``,
+          },
+        ],
+      });
+    });
+    msgCol.on("end", () => {
+      msg.edit({
+        components: [
+          new MessageActionRow().addComponents([
+            new MessageButton({
+              label: "The Calculator Ended",
+              disabled: true,
+              customId: "end",
+              style: "DANGER",
+            }),
+          ]),
+        ],
+      });
+    });
   },
 };
