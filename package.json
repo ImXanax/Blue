@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "ffmpeg-static": "^4.4.0",
     "images-scraper": "^6.3.0",
+    "mathjs": "^10.6.1",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.33",

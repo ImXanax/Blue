@@ -8,6 +8,8 @@ const {
   MessageAttachment,
 } = require("discord.js");
 
+const math = require('mathjs')
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("calculator")
@@ -17,6 +19,28 @@ module.exports = {
      *
      */
     const rows = [
+      new MessageActionRow().addComponents([
+        new MessageButton({
+          customId: ".",
+          style: "PRIMARY",
+          label: "<:dot13:866172220799844372>",
+        }),
+        new MessageButton({
+          customId: "(",
+          style: "PRIMARY",
+          label: "(",
+        }),
+        new MessageButton({
+          customId: ")",
+          style: "PRIMARY",
+          label: ")",
+        }),
+        new MessageButton({
+          customId: "b",
+          style: "SECONDARY",
+          label: "<=",
+        }),
+      ]),
       new MessageActionRow().addComponents([
         new MessageButton({
           customId: "7",
@@ -113,6 +137,19 @@ module.exports = {
         description:"\`\`\`RESULTS ARE DISPLAYED HERE.\`\`\`"
       }],
       fetchReply: true
+    })
+    const filter = (i) => i.user.id === ctx.user.id
+    const msgCol = msg.createMessageComponentCollector(filter,1200000)
+
+    let res = ''
+    msgCol.on('collect',async (i)=>{
+      if(i.customId === 'e'){
+        try{
+          res = math.evaluate(res)
+        }catch(e){
+          res = '1010://ERR | click on C to restart'
+        }
+      }
     })
   },
 };
