@@ -148,7 +148,7 @@ module.exports = {
       fetchReply: true,
     });
     const filter = (i) => i.user.id === ctx.user.id;
-    const msgCol = msg.createMessageComponentCollector(filter, 1200000);
+    const msgCol = msg.createMessageComponentCollector(filter, 60000);
 
     let res = "";
     msgCol.on("collect", async (i) => {
