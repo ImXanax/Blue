@@ -10,5 +10,4 @@
 - score discord xp cmd
 - afk cmd
 - remind cmd
-- suggestions cmd
 
