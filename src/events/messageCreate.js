@@ -20,10 +20,5 @@ module.exports = {
             }).catch(e=>console.log(`ERR FETCHING CHANNEL: ${e}`))
         }
 
-        //LEVEL
-        //if user exists if not create one
-        //add random amount of xp to user
-        //check if user has leveled up
-        //check if user reached 25,50,100
     }
 };

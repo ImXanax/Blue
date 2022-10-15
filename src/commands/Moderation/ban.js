@@ -20,8 +20,7 @@ module.exports = {
     const isAdmin = ctx.member.roles.cache.has("734431567912370196");
     const target = ctx.options.getUser("user");
     if (!isAdmin){
-      const img = new MessageAttachment('src/assets/img/x.png')
-      return ctx.reply({files:[img]});
+      return ctx.reply({content:'dont have perms'});
     }
       const banEmbed = new MessageEmbed()
         .setDescription(
